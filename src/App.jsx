@@ -4,41 +4,15 @@ import MyPath from "./components/MyPath";
 import Readiness from "./components/Readiness";
 import Prep from "./components/Prep";
 import LoginPage from "./components/LoginPage";
+import Logo from "./components/Logo";
 import "./index.css";
 
 const TABS = ["Gap Map", "Readiness", "Prep", "My Path"];
-const READINESS_SCORE = 64;
 
-function ReadinessScoreBadge({ score }) {
-  const color =
-    score >= 75 ? "text-emerald-600 border-emerald-300 bg-emerald-50" :
-    score >= 50 ? "text-amber-600 border-amber-300 bg-amber-50" :
-                  "text-red-600 border-red-300 bg-red-50";
-
-  const label =
-    score >= 75 ? "Ready to Apply" :
-    score >= 50 ? "Nearly There" :
-                  "Significant Gaps";
-
-  return (
-    <div className={`inline-flex items-center gap-3 px-5 py-3 rounded-2xl border ${color}`}>
-      <span className="text-4xl font-bold tracking-tight">{score}</span>
-      <div className="text-left">
-        <div className="text-xs font-semibold uppercase tracking-wider opacity-70">Readiness Score</div>
-        <div className="text-sm font-semibold">{label}</div>
-      </div>
-    </div>
-  );
-}
-
-function PlaceholderTab({ name }) {
-  return (
-    <div className="flex flex-col items-center justify-center py-24 text-gray-400">
-      <p className="text-base font-medium text-gray-500">{name} view coming soon</p>
-      <p className="text-sm mt-1">This screen is part of the full flow.</p>
-    </div>
-  );
-}
+const QUOTE = {
+  text: "The best time to start preparing was yesterday. The second best time is now.",
+  author: "PM community wisdom",
+};
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -49,13 +23,17 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      {/* Top nav */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-        <span className="text-sm font-semibold text-gray-900 tracking-tight">PM Buddy</span>
+    <div className="min-h-screen font-sans" style={{ background: "linear-gradient(160deg, #faf5ff 0%, #eff6ff 60%, #f8fafc 100%)" }}>
+
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-10">
+        <div className="flex items-center gap-2.5">
+          <Logo size={30} />
+          <span className="text-lg font-bold tracking-tight text-gray-900">PM Buddy</span>
+        </div>
         <button
           onClick={() => setLoggedIn(false)}
-          className="text-xs text-gray-400 hover:text-gray-600 cursor-pointer"
+          className="text-xs text-gray-400 hover:text-gray-600 cursor-pointer transition-colors"
         >
           Sign out
         </button>
@@ -64,12 +42,12 @@ export default function App() {
       {/* Main content */}
       <main className="max-w-2xl mx-auto px-4 py-8">
 
-        {/* Readiness Score Badge */}
-        <div className="flex flex-col items-center mb-8">
-          <ReadinessScoreBadge score={READINESS_SCORE} />
-          <p className="text-xs text-gray-400 mt-3 text-center">
-            Based on your diagnostic. Benchmark: 75+ to apply confidently.
+        {/* Quote */}
+        <div className="mb-8 px-5 py-4 rounded-2xl border border-violet-100 bg-white/60 backdrop-blur-sm">
+          <p className="text-sm text-gray-700 leading-relaxed italic">
+            "{QUOTE.text}"
           </p>
+          <p className="text-xs text-gray-400 mt-2 font-medium">— {QUOTE.author}</p>
         </div>
 
         {/* Tab Navigation */}
@@ -80,7 +58,7 @@ export default function App() {
               onClick={() => setActiveTab(tab)}
               className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors cursor-pointer ${
                 activeTab === tab
-                  ? "border-gray-900 text-gray-900"
+                  ? "border-violet-500 text-violet-700"
                   : "border-transparent text-gray-400 hover:text-gray-600"
               }`}
             >
@@ -90,7 +68,7 @@ export default function App() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 shadow-sm">
           {activeTab === "Gap Map" && (
             <>
               <div className="mb-5">
